@@ -1,26 +1,22 @@
-class SquidError implements Exception {
-  final String _namespace;
-  String get namespace => _namespace;
+import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
-  final String _errorCode;
-  String get errorCode => _errorCode;
+@immutable
+class SquidError extends Equatable implements Exception {
+  final String namespace;
+  final String errorCode;
+  final String? message;
 
-  SquidError({required String namespace, required String errorCode})
-      : _namespace = namespace,
-        _errorCode = errorCode;
+  const SquidError({required this.namespace, required this.errorCode}) : message = null;
 
-  SquidError.unknown({required String message})
-      : _namespace = 'unknown',
-        _errorCode = message;
+  const SquidError.unknown({required String code, this.message})
+      : errorCode = 'unknown-$code-error',
+        namespace = 'unknown';
 
-  bool isEqual({required String namespace, required String errorCode}) {
-    return this.namespace == namespace && this.errorCode == errorCode;
+  bool isEqual({required String namespace, required String? errorCode, String? message}) {
+    return this.namespace == namespace && this.errorCode == errorCode && this.message == message;
   }
 
   @override
-  bool operator ==(Object other) =>
-      other is SquidError && _namespace == other._namespace && _errorCode == other._errorCode;
-
-  @override
-  int get hashCode => Object.hash(_namespace, _errorCode);
+  List<Object?> get props => [namespace, errorCode, message];
 }

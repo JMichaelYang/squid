@@ -20,11 +20,11 @@ class AuthRepository {
           throw AuthErrors.signUp;
       }
     } catch (e) {
-      throw SquidError.unknown(message: e.toString());
+      throw SquidError.unknown(code: 'email-sign-up', message: e.toString());
     }
   }
 
-  Future signIn({required String email, required String password}) async {
+  Future emailSignIn({required String email, required String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
@@ -37,7 +37,7 @@ class AuthRepository {
           throw AuthErrors.signIn;
       }
     } catch (e) {
-      throw SquidError.unknown(message: e.toString());
+      throw SquidError.unknown(code: 'email-sign-in', message: e.toString());
     }
   }
 
@@ -50,7 +50,7 @@ class AuthRepository {
 
       await _firebaseAuth.signInWithCredential(credential);
     } catch (e) {
-      throw SquidError.unknown(message: e.toString());
+      throw SquidError.unknown(code: 'google-sign-in', message: e.toString());
     }
   }
 

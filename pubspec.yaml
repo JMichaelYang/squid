@@ -25,6 +25,7 @@ dependencies:
   firebase_auth: ^3.9.0
   google_sign_in: ^5.4.1
   email_validator: ^2.1.17
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
