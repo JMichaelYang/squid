@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "935344900931",
+    "project_id": "squid-8d19c",
+    "storage_bucket": "squid-8d19c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:935344900931:android:27a7467f4d9cbca860bdf6",
+        "android_client_info": {
+          "package_name": "com.example.squid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "935344900931-v9a279qifli8usodocfrmaboclrp0sbf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.squid",
+            "certificate_hash": "3276039fd733b7886a5e08e966a8fb246974b91b"
+          }
+        },
+        {
+          "client_id": "935344900931-plgfad8a2g1uul29e2usont626s0tfp9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhc4A9DWMSNpLsl3nq5ZhPoua9wqCNMC4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "935344900931-plgfad8a2g1uul29e2usont626s0tfp9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "935344900931-kd9r8r2dj2qs0eshg76gfitblmoqje0o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.squid"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

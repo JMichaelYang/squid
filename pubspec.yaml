@@ -21,6 +21,10 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   flutter_bloc: ^8.1.1
+  firebase_core: ^1.22.0
+  firebase_auth: ^3.9.0
+  google_sign_in: ^5.4.1
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:
