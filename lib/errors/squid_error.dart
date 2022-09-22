@@ -10,8 +10,8 @@ class SquidError extends Equatable implements Exception {
   const SquidError({required this.namespace, required this.errorCode}) : message = null;
 
   const SquidError.unknown({required String code, this.message})
-      : errorCode = 'unknown-$code-error',
-        namespace = 'unknown';
+      : namespace = 'unknown',
+        errorCode = 'unknown-$code-error';
 
   bool isEqual({required String namespace, required String? errorCode, String? message}) {
     return this.namespace == namespace && this.errorCode == errorCode && this.message == message;

@@ -33,5 +33,47 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   test: ^1.21.4
   bloc_test: ^9.1.0
+
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/logos/
+    - assets/backgrounds/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins/Poppins-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/poppins/Poppins-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/poppins/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/poppins/Poppins-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/poppins/Poppins-Regular.ttf
+        - asset: assets/fonts/poppins/Poppins-Italic.ttf
+          style: italic
+        - asset: assets/fonts/poppins/Poppins-Light.ttf
+          weight: 300
+        - asset: assets/fonts/poppins/Poppins-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/poppins/Poppins-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/poppins/Poppins-ExtraLightItalic.ttf
+          weight: 200
+          style: italic
+    - family: Lobster
+      fonts:
+        - asset: assets/fonts/lobster/LobsterTwo-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/lobster/LobsterTwo-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/lobster/LobsterTwo-Regular.ttf
+        - asset: assets/fonts/lobster/LobsterTwo-Italic.ttf
+          style: italic
