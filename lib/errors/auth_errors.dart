@@ -6,6 +6,7 @@ class AuthErrors {
   // Email and password sign up errors.
   static const SquidError weakPassword = SquidError(namespace: namespace, errorCode: 'weak-password');
   static const SquidError emailAlreadyInUse = SquidError(namespace: namespace, errorCode: 'email-already-in-use');
+  static const SquidError notMatchingPassword = SquidError(namespace: namespace, errorCode: 'not-matching-password');
   static const SquidError signUp = SquidError(namespace: namespace, errorCode: 'sign-up');
 
   // Email and password sign in errors.

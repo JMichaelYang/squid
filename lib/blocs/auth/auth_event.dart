@@ -1,25 +1,33 @@
 import 'package:flutter/cupertino.dart';
+import 'package:squid/errors/squid_error.dart';
 
 abstract class AuthEvent {}
 
 @immutable
-class EmailSignUpEvent extends AuthEvent {
+class AuthEmailSignUpEvent extends AuthEvent {
   final String email;
   final String password;
 
-  EmailSignUpEvent(this.email, this.password);
+  AuthEmailSignUpEvent(this.email, this.password);
 }
 
 @immutable
-class EmailSignInEvent extends AuthEvent {
+class AuthEmailSignInEvent extends AuthEvent {
   final String email;
   final String password;
 
-  EmailSignInEvent(this.email, this.password);
+  AuthEmailSignInEvent(this.email, this.password);
 }
 
 @immutable
-class GoogleSignInEvent extends AuthEvent {}
+class AuthGoogleSignInEvent extends AuthEvent {}
 
 @immutable
-class SignOutEvent extends AuthEvent {}
+class AuthSignOutEvent extends AuthEvent {}
+
+@immutable
+class AuthErrorEvent extends AuthEvent {
+  final SquidError error;
+
+  AuthErrorEvent(this.error);
+}

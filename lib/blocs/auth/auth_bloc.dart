@@ -10,7 +10,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({required AuthRepository authRepository})
       : _authRepository = authRepository,
         super(AuthUnauthenticatedState()) {
-    on<EmailSignUpEvent>((event, emit) async {
+    on<AuthEmailSignUpEvent>((event, emit) async {
       emit(AuthLoadingState());
 
       try {
@@ -25,7 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    on<EmailSignInEvent>((event, emit) async {
+    on<AuthEmailSignInEvent>((event, emit) async {
       emit(AuthLoadingState());
 
       try {
@@ -40,7 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    on<GoogleSignInEvent>((event, emit) async {
+    on<AuthGoogleSignInEvent>((event, emit) async {
       emit(AuthLoadingState());
 
       try {
@@ -55,7 +55,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    on<SignOutEvent>((event, emit) async {
+    on<AuthSignOutEvent>((event, emit) async {
       emit(AuthLoadingState());
 
       try {
@@ -68,6 +68,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthErrorState(SquidError.unknown(code: 'auth-bloc', message: e.toString())));
         emit(AuthUnauthenticatedState());
       }
+    });
+
+    on<AuthErrorEvent>((event, emit) async {
+      emit(AuthErrorState(event.error));
+      emit(AuthUnauthenticatedState());
     });
   }
 }

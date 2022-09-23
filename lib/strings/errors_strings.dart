@@ -1,12 +1,13 @@
 const Map<String, Map<String, String>> _errorStrings = {
   'auth': {
-    'weak-password': 'please try again with a stronger password.',
-    'email-already-in-use': 'this email is already being used, try logging in!',
-    'sign-up': 'an error has occurred during sign up, please try again.',
-    'user-not-found': 'no account was found for that email, try signing up!',
-    'wrong-password': 'the password was incorrect, please try again.',
-    'sign-in': 'an error has occurred during sign in, please try again.',
-    'sign-out': 'an error has occurred during sign out, please try again.',
+    'weak-password': 'Please try again with a stronger password.',
+    'email-already-in-use': 'This email is already being used, try logging in!',
+    'not-matching-password': 'Please confirm that you\'ve entered the same password twice.',
+    'sign-up': 'An error has occurred during sign up, please try again.',
+    'user-not-found': 'No account was found for that email, try signing up!',
+    'wrong-password': 'The password was incorrect, please try again.',
+    'sign-in': 'An error has occurred during sign in, please try again.',
+    'sign-out': 'An error has occurred during sign out, please try again.',
   },
 };
 

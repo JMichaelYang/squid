@@ -3,11 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:squid/blocs/auth/auth_bloc.dart';
+import 'package:squid/blocs/auth/auth_event.dart';
 import 'package:squid/blocs/auth/auth_state.dart';
+import 'package:squid/errors/auth_errors.dart';
 import 'package:squid/errors/squid_error.dart';
 import 'package:squid/strings/errors_strings.dart';
 import 'package:squid/ui/pages/home_page/home_page.dart';
-import 'package:squid/ui/pages/sign_in_page/sign_in_page.dart';
 import 'package:squid/ui/utils/widgets.dart';
 
 class SignInForm extends StatefulWidget {
@@ -25,16 +26,13 @@ class SignInFormState extends State<SignInForm> with SingleTickerProviderStateMi
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmController = TextEditingController();
 
-  late Widget _animatedWidget;
-
-  @override
-  void initState() {
-    super.initState();
-    _animatedWidget = _getSignIn();
-  }
+  Widget? _animatedWidget;
 
   @override
   Widget build(BuildContext context) {
+    AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
+    _animatedWidget ??= _getSignIn(authBloc);
+
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthAuthenticatedState) {
@@ -49,10 +47,9 @@ class SignInFormState extends State<SignInForm> with SingleTickerProviderStateMi
             _animatedWidget = _getLoading();
           });
         } else if (state is AuthUnauthenticatedState) {
-          Widget next = _isSignUp ? _getSignIn() : _getSignUp();
+          Widget next = _isSignUp ? _getSignUp(authBloc) : _getSignIn(authBloc);
 
           setState(() {
-            _isSignUp = !_isSignUp;
             _animatedWidget = next;
           });
         }
@@ -74,7 +71,7 @@ class SignInFormState extends State<SignInForm> with SingleTickerProviderStateMi
     super.dispose();
   }
 
-  Widget _getSignIn() {
+  Widget _getSignIn(AuthBloc bloc) {
     return Column(
       key: const ValueKey(1),
       children: [
@@ -82,20 +79,20 @@ class SignInFormState extends State<SignInForm> with SingleTickerProviderStateMi
         const SizedBox(height: 16),
         _getEmailField(_emailController),
         const SizedBox(height: 12),
-        _getPasswordField(_passwordController, _hidePassword, _setHidePassword),
+        _getPasswordField(_passwordController, _hidePassword, _setHidePassword(bloc)),
         const SizedBox(height: 12),
-        _getSignInButton(_handleSignIn),
+        _getSignInButton(_handleSignIn(bloc)),
         const SizedBox(height: 16),
         _getOrText(),
         const SizedBox(height: 16),
-        _getGoogleSignInButton(_handleGoogleSignIn),
+        _getGoogleSignInButton(_handleGoogleSignIn(bloc)),
         const SizedBox(height: 12),
-        _getToggleButton(_setIsSignIn, 'sign up'),
+        _getToggleButton(_setIsSignIn(bloc), 'sign up'),
       ],
     );
   }
 
-  Widget _getSignUp() {
+  Widget _getSignUp(AuthBloc bloc) {
     return Column(
       key: const ValueKey(2),
       children: [
@@ -103,15 +100,15 @@ class SignInFormState extends State<SignInForm> with SingleTickerProviderStateMi
         const SizedBox(height: 16),
         _getEmailField(_emailController),
         const SizedBox(height: 12),
-        _getPasswordField(_passwordController, _hidePassword, _setHidePassword),
+        _getPasswordField(_passwordController, _hidePassword, _setHidePassword(bloc)),
         const SizedBox(height: 12),
-        _getPasswordField(_confirmController, _hidePassword, _setHidePassword, isConfirm: true),
+        _getPasswordField(_confirmController, _hidePassword, _setHidePassword(bloc), isConfirm: true),
         const SizedBox(height: 12),
-        _getSignUpButton(_handleSignUp),
+        _getSignUpButton(_handleSignUp(bloc)),
         const SizedBox(height: 16),
         _getOrText(),
         const SizedBox(height: 16),
-        _getToggleButton(_setIsSignIn, 'sign in'),
+        _getToggleButton(_setIsSignIn(bloc), 'sign in'),
       ],
     );
   }
@@ -124,27 +121,37 @@ class SignInFormState extends State<SignInForm> with SingleTickerProviderStateMi
     );
   }
 
-  void _setIsSignIn() {
-    Widget next = _isSignUp ? _getSignIn() : _getSignUp();
+  void Function() _setIsSignIn(AuthBloc bloc) => () {
+        Widget next = _isSignUp ? _getSignIn(bloc) : _getSignUp(bloc);
 
-    setState(() {
-      _isSignUp = !_isSignUp;
-      _animatedWidget = next;
-    });
-  }
+        setState(() {
+          _isSignUp = !_isSignUp;
+          _animatedWidget = next;
+        });
+      };
 
-  void _setHidePassword() {
-    setState(() {
-      _hidePassword = !_hidePassword;
-      _animatedWidget = _isSignUp ? _getSignUp() : _getSignIn();
-    });
-  }
+  void Function() _setHidePassword(AuthBloc bloc) => () {
+        setState(() {
+          _hidePassword = !_hidePassword;
+          _animatedWidget = _isSignUp ? _getSignUp(bloc) : _getSignIn(bloc);
+        });
+      };
 
-  void _handleSignIn() {}
+  void Function() _handleSignIn(AuthBloc bloc) => () {
+        bloc.add(AuthEmailSignInEvent(_emailController.text, _passwordController.text));
+      };
 
-  void _handleSignUp() {}
+  void Function() _handleSignUp(AuthBloc bloc) => () {
+        if (_passwordController.text == _confirmController.text) {
+          bloc.add(AuthEmailSignUpEvent(_emailController.text, _passwordController.text));
+        } else {
+          bloc.add(AuthErrorEvent(AuthErrors.notMatchingPassword));
+        }
+      };
 
-  void _handleGoogleSignIn() {}
+  void Function() _handleGoogleSignIn(AuthBloc bloc) => () {
+        bloc.add(AuthGoogleSignInEvent());
+      };
 }
 
 Widget _addOverlay(Widget child) {
