@@ -1,41 +1,54 @@
 import 'package:flutter/material.dart';
 
 class SquidButton extends StatelessWidget {
-  final void Function() _handlePressed;
-  final Widget? _icon;
-  final String? _text;
-  final double _width;
-  final double _height;
-  final BorderRadius _borderRadius;
+  final void Function() handlePressed;
+  final Widget? icon;
+  final String? text;
+  final double width;
+  final double height;
+  final BorderRadius borderRadius;
+  final double? fontSize;
 
   const SquidButton({
     super.key,
-    required void Function() handlePressed,
-    Widget? icon,
-    String? text,
-    double width = double.infinity,
-    double height = 48,
-    BorderRadius borderRadius = const BorderRadius.all(Radius.circular(16)),
-  })  : _handlePressed = handlePressed,
-        _icon = icon,
-        _text = text,
-        _width = width,
-        _height = height,
-        _borderRadius = borderRadius;
+    required this.handlePressed,
+    this.icon,
+    this.text,
+    this.width = double.infinity,
+    this.height = 48,
+    this.borderRadius = const BorderRadius.all(Radius.circular(16)),
+    this.fontSize = 16,
+  });
 
   @override
   Widget build(BuildContext context) {
     List<Widget> children = [];
-    if (_icon != null) children.add(Align(alignment: Alignment.centerLeft, child: _icon!));
-    if (_text != null) children.add(Align(alignment: Alignment.center, child: Text(_text!)));
+
+    if (icon != null) {
+      children.add(
+        Align(alignment: Alignment.centerLeft, child: icon!),
+      );
+    }
+
+    if (text != null) {
+      children.add(
+        Align(
+          alignment: Alignment.center,
+          child: Text(
+            text!,
+            style: TextStyle(fontSize: fontSize),
+          ),
+        ),
+      );
+    }
 
     return SizedBox(
-      width: _width,
-      height: _height,
+      width: width,
+      height: height,
       child: ElevatedButton(
-        onPressed: _handlePressed,
+        onPressed: handlePressed,
         style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(borderRadius: _borderRadius),
+          shape: RoundedRectangleBorder(borderRadius: borderRadius),
           padding: const EdgeInsets.all(8),
         ),
         child: Stack(children: children),
@@ -45,38 +58,36 @@ class SquidButton extends StatelessWidget {
 }
 
 class SquidTextField extends StatelessWidget {
-  final TextEditingController? _controller;
-  final bool _obscureText;
-  final IconButton? _suffixIcon;
-  final BorderRadius _borderRadius;
-  final EdgeInsetsGeometry? _padding;
-  final String? _hintText;
+  final TextEditingController? controller;
+  final bool obscureText;
+  final IconButton? suffixIcon;
+  final BorderRadius borderRadius;
+  final EdgeInsetsGeometry? padding;
+  final String? hintText;
+  final double? fontSize;
 
   const SquidTextField({
     super.key,
-    TextEditingController? controller,
-    bool obscureText = false,
-    IconButton? suffixIcon,
-    BorderRadius borderRadius = const BorderRadius.all(Radius.circular(16)),
-    EdgeInsetsGeometry? padding = const EdgeInsets.all(12),
-    String? hintText,
-  })  : _controller = controller,
-        _obscureText = obscureText,
-        _suffixIcon = suffixIcon,
-        _borderRadius = borderRadius,
-        _padding = padding,
-        _hintText = hintText;
+    this.controller,
+    this.obscureText = false,
+    this.suffixIcon,
+    this.borderRadius = const BorderRadius.all(Radius.circular(16)),
+    this.padding = const EdgeInsets.all(12),
+    this.hintText,
+    this.fontSize = 16,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: _controller,
-      obscureText: _obscureText,
+      controller: controller,
+      obscureText: obscureText,
+      style: TextStyle(fontSize: fontSize),
       decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: _borderRadius),
-        contentPadding: _padding,
-        hintText: _hintText,
-        suffixIcon: _suffixIcon,
+        border: OutlineInputBorder(borderRadius: borderRadius),
+        contentPadding: padding,
+        hintText: hintText,
+        suffixIcon: suffixIcon,
       ),
     );
   }
