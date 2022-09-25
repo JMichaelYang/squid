@@ -9,7 +9,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc({required AuthRepository authRepository})
       : _authRepository = authRepository,
-        super(AuthUnauthenticatedState()) {
+        super(AuthLoadingState()) {
+    on<AuthSilentSignInEvent>(((event, emit) async {
+      emit(AuthLoadingState());
+
+      try {
+        bool success = await _authRepository.signInSilently();
+        emit(success ? AuthAuthenticatedState() : AuthUnauthenticatedState());
+      } catch (e) {
+        emit(AuthErrorState(SquidError.unknown(code: 'auth-bloc', message: e.toString())));
+        emit(AuthUnauthenticatedState());
+      }
+    }));
+
     on<AuthEmailSignUpEvent>((event, emit) async {
       emit(AuthLoadingState());
 

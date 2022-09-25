@@ -4,6 +4,9 @@ import 'package:squid/errors/squid_error.dart';
 abstract class AuthEvent {}
 
 @immutable
+class AuthSilentSignInEvent extends AuthEvent {}
+
+@immutable
 class AuthEmailSignUpEvent extends AuthEvent {
   final String email;
   final String password;

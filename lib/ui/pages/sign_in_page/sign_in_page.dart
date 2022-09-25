@@ -16,10 +16,16 @@ class SignInPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
               child: Column(
                 children: [
-                  Expanded(flex: 1, child: Align(alignment: Alignment.bottomCenter, child: _getTitle())),
-                  const SizedBox(height: 48),
-                  Expanded(flex: 1, child: _getLogo()),
-                  const SizedBox(height: 48),
+                  Expanded(
+                    flex: 1,
+                    child: Column(children: [
+                      const SizedBox(height: 36),
+                      _getTitle(),
+                      const SizedBox(height: 24),
+                      Expanded(flex: 1, child: _getLogo()),
+                      const SizedBox(height: 24),
+                    ]),
+                  ),
                   const SignInForm()
                 ],
               ),

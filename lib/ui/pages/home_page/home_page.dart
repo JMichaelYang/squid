@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:squid/blocs/auth/auth_bloc.dart';
+import 'package:squid/blocs/auth/auth_event.dart';
 import 'package:squid/blocs/auth/auth_state.dart';
 import 'package:squid/ui/pages/sign_in_page/sign_in_page.dart';
+import 'package:squid/ui/utils/widgets.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,7 +22,15 @@ class HomePage extends StatelessWidget {
           }
         }),
         builder: (context, state) {
-          return const Center(child: CircularProgressIndicator());
+          void handlePressed() {
+            BlocProvider.of<AuthBloc>(context).add(AuthSignOutEvent());
+          }
+
+          return Center(
+              child: SquidButton(
+            handlePressed: handlePressed,
+            text: 'sign out',
+          ));
         },
       ),
     );

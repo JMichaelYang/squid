@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:squid/blocs/auth/auth_bloc.dart';
+import 'package:squid/blocs/auth/auth_event.dart';
 import 'package:squid/data/repositories/auth_repository.dart';
 import 'package:squid/firebase_options.dart';
 import 'package:squid/ui/pages/sign_in_page/sign_in_page.dart';
@@ -24,7 +25,11 @@ class Squid extends StatelessWidget {
       providers: [RepositoryProvider<AuthRepository>(create: (context) => AuthRepository())],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => AuthBloc(authRepository: RepositoryProvider.of<AuthRepository>(context)))
+          BlocProvider(
+            create: (context) => AuthBloc(
+              authRepository: RepositoryProvider.of<AuthRepository>(context),
+            )..add(AuthSilentSignInEvent()),
+          )
         ],
         child: MaterialApp(
           title: 'Squid',
