@@ -12,26 +12,41 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<AuthBloc, AuthState>(
-        listener: ((context, state) {
-          if (state is AuthUnauthenticatedState) {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => const SignInPage()),
-              (route) => false,
-            );
-          }
-        }),
-        builder: (context, state) {
-          void handlePressed() {
-            BlocProvider.of<AuthBloc>(context).add(AuthSignOutEvent());
-          }
+      body: SafeArea(
+        child: BlocConsumer<AuthBloc, AuthState>(
+          listener: ((context, state) {
+            if (state is AuthUnauthenticatedState) {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const SignInPage()),
+                (route) => false,
+              );
+            }
+          }),
+          builder: (context, state) {
+            void handlePressed() {
+              BlocProvider.of<AuthBloc>(context).add(AuthSignOutEvent());
+            }
 
-          return Center(
-              child: SquidButton(
-            handlePressed: handlePressed,
-            text: 'sign out',
-          ));
-        },
+            if (state is AuthAuthenticatedState) {
+              return Center(
+                child: Column(
+                  children: [
+                    Text('Hello ${state.user.displayName}'),
+                    const SizedBox(height: 24),
+                    SquidButton(
+                      handlePressed: handlePressed,
+                      text: 'sign out',
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
       ),
     );
   }

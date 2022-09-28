@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:squid/errors/squid_error.dart';
 
@@ -12,8 +13,12 @@ class AuthLoadingState extends AuthState {
 
 @immutable
 class AuthAuthenticatedState extends AuthState {
+  final User user;
+
+  AuthAuthenticatedState(this.user);
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [user];
 }
 
 @immutable

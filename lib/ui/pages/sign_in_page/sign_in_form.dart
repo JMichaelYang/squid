@@ -31,7 +31,7 @@ class SignInFormState extends State<SignInForm> with SingleTickerProviderStateMi
   @override
   Widget build(BuildContext context) {
     AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
-    _animatedWidget ??= _getSignIn(authBloc);
+    _animatedWidget ??= authBloc.state is AuthLoadingState ? _getLoading() : _getSignIn(authBloc);
 
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:squid/blocs/auth/auth_event.dart';
 import 'package:squid/blocs/auth/auth_state.dart';
@@ -14,8 +15,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoadingState());
 
       try {
-        bool success = await _authRepository.signInSilently();
-        emit(success ? AuthAuthenticatedState() : AuthUnauthenticatedState());
+        User? user = await _authRepository.signInSilently();
+        emit(user != null ? AuthAuthenticatedState(user) : AuthUnauthenticatedState());
       } catch (e) {
         emit(AuthErrorState(SquidError.unknown(code: 'auth-bloc', message: e.toString())));
         emit(AuthUnauthenticatedState());
@@ -26,8 +27,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoadingState());
 
       try {
-        await _authRepository.emailSignUp(email: event.email, password: event.password);
-        emit(AuthAuthenticatedState());
+        User? user = await _authRepository.emailSignUp(email: event.email, password: event.password);
+        emit(user != null ? AuthAuthenticatedState(user) : AuthUnauthenticatedState());
       } on SquidError catch (e) {
         emit(AuthErrorState(e));
         emit(AuthUnauthenticatedState());
@@ -41,8 +42,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoadingState());
 
       try {
-        await _authRepository.emailSignIn(email: event.email, password: event.password);
-        emit(AuthAuthenticatedState());
+        User? user = await _authRepository.emailSignIn(email: event.email, password: event.password);
+        emit(user != null ? AuthAuthenticatedState(user) : AuthUnauthenticatedState());
       } on SquidError catch (e) {
         emit(AuthErrorState(e));
         emit(AuthUnauthenticatedState());
@@ -56,8 +57,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoadingState());
 
       try {
-        await _authRepository.googleSignIn();
-        emit(AuthAuthenticatedState());
+        User? user = await _authRepository.googleSignIn();
+        emit(user != null ? AuthAuthenticatedState(user) : AuthUnauthenticatedState());
       } on SquidError catch (e) {
         emit(AuthErrorState(e));
         emit(AuthUnauthenticatedState());

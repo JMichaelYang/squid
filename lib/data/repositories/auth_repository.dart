@@ -1,47 +1,47 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_sign_in_mocks/google_sign_in_mocks.dart';
 import 'package:squid/errors/auth_errors.dart';
 import 'package:squid/errors/squid_error.dart';
 import 'package:squid/ui/utils/constants.dart';
-import 'package:squid/ui/utils/mocks.dart';
+import 'package:squid/ui/utils/dependencies.dart';
 
 class AuthRepository {
-  final _firebaseAuth = Constants.mockSignIn
-      ? MockFirebaseAuth(
-          mockUser: Mocks.user,
-        )
-      : FirebaseAuth.instance;
+  final _firebaseAuth = Dependencies().firebaseAuth;
 
-  Future<bool> signInSilently() async {
+  Future<User?> signInSilently() async {
     try {
       if (_firebaseAuth.currentUser != null) {
-        return true;
+        return null;
       }
 
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signInSilently();
       if (googleUser == null) {
-        return false;
+        return null;
       }
 
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       final OAuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
 
-      await _firebaseAuth.signInWithCredential(credential);
-      return true;
+      UserCredential firebaseCredential = await _firebaseAuth.signInWithCredential(credential);
+      return firebaseCredential.user;
     } catch (e) {
-      return false;
+      return null;
     }
   }
 
-  Future emailSignUp({required String email, required String password}) async {
+  Future<User?> emailSignUp({required String email, required String password}) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential firebaseCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      return firebaseCredential.user;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'weak-password':
@@ -56,9 +56,14 @@ class AuthRepository {
     }
   }
 
-  Future emailSignIn({required String email, required String password}) async {
+  Future<User?> emailSignIn({required String email, required String password}) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential firebaseCredential = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      return firebaseCredential.user;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'user-not-found':
@@ -73,7 +78,7 @@ class AuthRepository {
     }
   }
 
-  Future googleSignIn() async {
+  Future<User?> googleSignIn() async {
     try {
       GoogleSignIn signIn = Constants.mockSignIn ? MockGoogleSignIn() : GoogleSignIn();
       final GoogleSignInAccount? googleUser = await signIn.signIn();
@@ -83,7 +88,8 @@ class AuthRepository {
         idToken: googleAuth?.idToken,
       );
 
-      await _firebaseAuth.signInWithCredential(credential);
+      UserCredential firebaseCredential = await _firebaseAuth.signInWithCredential(credential);
+      return firebaseCredential.user;
     } catch (e) {
       throw SquidError.unknown(code: 'google-sign-in', message: e.toString());
     }
