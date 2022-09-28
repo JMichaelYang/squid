@@ -1,22 +1,25 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:google_sign_in_mocks/google_sign_in_mocks.dart';
 import 'package:squid/errors/auth_errors.dart';
 import 'package:squid/errors/squid_error.dart';
-import 'package:squid/ui/utils/constants.dart';
 import 'package:squid/ui/utils/dependencies.dart';
 
 class AuthRepository {
-  final _firebaseAuth = Dependencies().firebaseAuth;
+  final FirebaseAuth _firebaseAuth;
+  final GoogleSignIn _googleSignIn;
+
+  AuthRepository()
+      : _firebaseAuth = Dependencies().firebaseAuth,
+        _googleSignIn = Dependencies().googleSignIn;
 
   Future<User?> signInSilently() async {
     try {
       if (_firebaseAuth.currentUser != null) {
-        return null;
+        return _firebaseAuth.currentUser;
       }
 
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signInSilently();
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signInSilently();
       if (googleUser == null) {
         return null;
       }
@@ -80,8 +83,7 @@ class AuthRepository {
 
   Future<User?> googleSignIn() async {
     try {
-      GoogleSignIn signIn = Constants.mockSignIn ? MockGoogleSignIn() : GoogleSignIn();
-      final GoogleSignInAccount? googleUser = await signIn.signIn();
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
       final OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,

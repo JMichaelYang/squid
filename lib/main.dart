@@ -7,12 +7,19 @@ import 'package:squid/blocs/auth/auth_event.dart';
 import 'package:squid/data/repositories/auth_repository.dart';
 import 'package:squid/firebase_options.dart';
 import 'package:squid/ui/pages/sign_in_page/sign_in_page.dart';
+import 'package:squid/ui/utils/dependencies.dart';
 import 'package:squid/ui/utils/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  Dependencies().configureDefault(
+    mockFirebaseAuth: true,
+    mockGoogleSignIn: true,
+  );
+
   runApp(const Squid());
 }
 
