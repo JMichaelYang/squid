@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:squid/errors/auth_errors.dart';
-import 'package:squid/errors/squid_error.dart';
+import 'package:squid/errors/auth_error.dart';
 import 'package:squid/ui/utils/mocks/dependencies.dart';
 
 class AuthRepository {
@@ -48,14 +47,14 @@ class AuthRepository {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'weak-password':
-          throw AuthErrors.weakPassword;
+          throw AuthError.weakPassword;
         case 'email-already-in-use':
-          throw AuthErrors.emailAlreadyInUse;
+          throw AuthError.emailAlreadyInUse;
         default:
-          throw AuthErrors.signUp;
+          throw AuthError.signUp;
       }
     } catch (e) {
-      throw SquidError.unknown(code: 'email-sign-up', message: e.toString());
+      throw AuthError(errorCode: 'email-sign-up', message: e.toString());
     }
   }
 
@@ -70,14 +69,14 @@ class AuthRepository {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'user-not-found':
-          throw AuthErrors.userNotFound;
+          throw AuthError.userNotFound;
         case 'wrong-password':
-          throw AuthErrors.wrongPassword;
+          throw AuthError.wrongPassword;
         default:
-          throw AuthErrors.signIn;
+          throw AuthError.signIn;
       }
     } catch (e) {
-      throw SquidError.unknown(code: 'email-sign-in', message: e.toString());
+      throw AuthError(errorCode: 'email-sign-in', message: e.toString());
     }
   }
 
@@ -93,7 +92,7 @@ class AuthRepository {
       UserCredential firebaseCredential = await _firebaseAuth.signInWithCredential(credential);
       return firebaseCredential.user;
     } catch (e) {
-      throw SquidError.unknown(code: 'google-sign-in', message: e.toString());
+      throw AuthError(errorCode: 'google-sign-in', message: e.toString());
     }
   }
 
@@ -101,7 +100,7 @@ class AuthRepository {
     try {
       await _firebaseAuth.signOut();
     } catch (e) {
-      throw AuthErrors.signOut;
+      throw AuthError.signOut;
     }
   }
 }

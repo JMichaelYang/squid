@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:squid/blocs/auth/auth_bloc.dart';
 import 'package:squid/blocs/auth/auth_event.dart';
 import 'package:squid/blocs/auth/auth_state.dart';
-import 'package:squid/errors/auth_errors.dart';
+import 'package:squid/errors/auth_error.dart';
 import 'package:squid/errors/squid_error.dart';
 import 'package:squid/strings/errors_strings.dart';
 import 'package:squid/ui/components/squid_text_field.dart';
@@ -147,7 +147,7 @@ class SignInFormState extends State<SignInForm> with SingleTickerProviderStateMi
         if (_passwordController.text == _confirmController.text) {
           bloc.add(AuthEmailSignUpEvent(_emailController.text, _passwordController.text));
         } else {
-          bloc.add(AuthErrorEvent(AuthErrors.notMatchingPassword));
+          bloc.add(AuthErrorEvent(AuthError.notMatchingPassword));
         }
       };
 

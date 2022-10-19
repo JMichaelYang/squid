@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 @immutable
@@ -18,17 +17,15 @@ class Note {
   })  : _hex = hex,
         _textHex = textHex;
 
-  factory Note.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    final Map<String, dynamic>? data = snapshot.data();
-    return Note(
-      id: data?['id'],
-      title: data?['title'],
-      hex: data?['hex'],
-      textHex: data?['textHex'],
-    );
-  }
+  Note.fromJson(Map<String, dynamic> json)
+      : this(
+          id: json['id'] as String,
+          title: json['title'] as String,
+          hex: json['hex'] as String,
+          textHex: json['textHex'] as String,
+        );
 
-  Map<String, dynamic> toFirestore() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'title': title,

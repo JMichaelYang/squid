@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 enum SectionType {
@@ -14,22 +13,20 @@ abstract class Section {
 
   const Section({required this.index, required this.type});
 
-  factory Section.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    final Map<String, dynamic>? data = snapshot.data();
-
-    switch (data?['type']) {
+  factory Section.fromJson(Map<String, dynamic> json) {
+    switch (json['type']) {
       case 'SectionType.header':
-        return HeaderSection.fromFirestore(data);
+        return HeaderSection.fromJson(json);
       case 'SectionType.paragraph':
-        return ParagraphSection.fromFirestore(data);
+        return ParagraphSection.fromJson(json);
       case 'SectionType.checklist':
-        return ChecklistSection.fromFirestore(data);
+        return ChecklistSection.fromJson(json);
       default:
-        throw ArgumentError('Section factory received JSON with an invalid type: ${data?['type']}');
+        throw ArgumentError('Section factory received JSON with an invalid type: ${json['type']}');
     }
   }
 
-  Map<String, dynamic> toFirestore();
+  Map<String, dynamic> toJson();
 }
 
 @immutable
@@ -41,14 +38,16 @@ class HeaderSection extends Section {
     required this.headerText,
   }) : super(index: index, type: SectionType.header);
 
-  HeaderSection.fromFirestore(Map<String, dynamic>? data)
+  const HeaderSection.createAt({required int index}) : this(index: index, headerText: '');
+
+  HeaderSection.fromJson(Map<String, dynamic> json)
       : this(
-          index: data?['index'],
-          headerText: data?['headerText'],
+          index: json['index'] as int,
+          headerText: json['headerText'] as String,
         );
 
   @override
-  Map<String, dynamic> toFirestore() {
+  Map<String, dynamic> toJson() {
     return {
       'index': index,
       'type': describeEnum(type),
@@ -66,14 +65,16 @@ class ParagraphSection extends Section {
     required this.paragraphText,
   }) : super(index: index, type: SectionType.paragraph);
 
-  ParagraphSection.fromFirestore(Map<String, dynamic>? data)
+  const ParagraphSection.createAt({required int index}) : this(index: index, paragraphText: '');
+
+  ParagraphSection.fromJson(Map<String, dynamic> json)
       : this(
-          index: data?['index'],
-          paragraphText: data?['paragraphText'],
+          index: json['index'] as int,
+          paragraphText: json['paragraphText'] as String,
         );
 
   @override
-  Map<String, Object?> toFirestore() {
+  Map<String, dynamic> toJson() {
     return {
       'index': index,
       'type': describeEnum(type),
@@ -99,15 +100,15 @@ class ChecklistSection extends Section {
 
   ChecklistSection.createAt({required int index}) : this(index: index, isChecked: [false], text: ['']);
 
-  ChecklistSection.fromFirestore(Map<String, dynamic>? data)
+  ChecklistSection.fromJson(Map<String, dynamic> json)
       : this(
-          index: data?['index'],
-          isChecked: data?['isChecked'] is Iterable ? List.from(data?['isChecked']) : [false],
-          text: data?['text'] is Iterable ? List.from(data?['text']) : [''],
+          index: json['index'] as int,
+          isChecked: json['isChecked'] as List<bool>,
+          text: json['text'] as List<String>,
         );
 
   @override
-  Map<String, Object?> toFirestore() {
+  Map<String, dynamic> toJson() {
     return {
       'index': index,
       'type': describeEnum(type),
