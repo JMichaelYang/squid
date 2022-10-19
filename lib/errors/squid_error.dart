@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 
 class ErrorNamespace {
   static const String auth = 'auth';
-  static const String notes = 'notes';
-  static const String sections = 'sections';
+  static const String note = 'note';
+  static const String section = 'section';
   static const String share = 'share';
 }
 

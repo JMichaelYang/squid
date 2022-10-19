@@ -51,7 +51,7 @@ class AuthRepository {
         case 'email-already-in-use':
           throw AuthError.emailAlreadyInUse;
         default:
-          throw AuthError.signUp;
+          throw AuthError(errorCode: 'email-sign-up', message: e.message);
       }
     } catch (e) {
       throw AuthError(errorCode: 'email-sign-up', message: e.toString());
@@ -73,7 +73,7 @@ class AuthRepository {
         case 'wrong-password':
           throw AuthError.wrongPassword;
         default:
-          throw AuthError.signIn;
+          throw AuthError(errorCode: 'email-sign-in', message: e.message);
       }
     } catch (e) {
       throw AuthError(errorCode: 'email-sign-in', message: e.toString());

@@ -33,4 +33,12 @@ class Note {
       'textHex': _textHex,
     };
   }
+
+  static Map<String, dynamic> frame({String? title, String? hex, String? textHex}) {
+    return {
+      if (title != null) 'title': title,
+      if (hex != null) 'hex': hex,
+      if (textHex != null) 'textHex': textHex,
+    };
+  }
 }
