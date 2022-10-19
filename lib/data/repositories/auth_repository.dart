@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:squid/errors/auth_errors.dart';
 import 'package:squid/errors/squid_error.dart';
-import 'package:squid/ui/utils/dependencies.dart';
+import 'package:squid/ui/utils/mocks/dependencies.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;

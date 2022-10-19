@@ -8,8 +8,9 @@ import 'package:squid/blocs/auth/auth_state.dart';
 import 'package:squid/errors/auth_errors.dart';
 import 'package:squid/errors/squid_error.dart';
 import 'package:squid/strings/errors_strings.dart';
+import 'package:squid/ui/components/squid_text_field.dart';
 import 'package:squid/ui/pages/home_page/home_page.dart';
-import 'package:squid/ui/utils/widgets.dart';
+import 'package:squid/ui/components/squid_button.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
@@ -55,6 +56,7 @@ class SignInFormState extends State<SignInForm> with SingleTickerProviderStateMi
         }
       },
       child: _addOverlay(
+        context,
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 250),
           child: _animatedWidget,
@@ -154,14 +156,16 @@ class SignInFormState extends State<SignInForm> with SingleTickerProviderStateMi
       };
 }
 
-Widget _addOverlay(Widget child) {
+Widget _addOverlay(BuildContext context, Widget child) {
+  Color overlayColor = Theme.of(context).colorScheme.surface.withAlpha(64);
+
   return ClipRRect(
     borderRadius: BorderRadius.circular(16),
     child: BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-        decoration: const BoxDecoration(color: Color(0x40FFFFFF)),
+        decoration: BoxDecoration(color: overlayColor),
         width: double.infinity,
         child: child,
       ),

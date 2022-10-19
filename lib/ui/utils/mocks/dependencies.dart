@@ -3,7 +3,7 @@ import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:squid/ui/utils/mocks/instances.dart';
 
-import 'mocks/mock_google_sign_in.dart';
+import 'mock_google_sign_in.dart';
 
 class Dependencies {
   static final Dependencies _instance = Dependencies._init();

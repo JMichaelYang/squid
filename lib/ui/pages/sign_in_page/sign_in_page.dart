@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:squid/ui/components/squid_background.dart';
 import 'package:squid/ui/pages/sign_in_page/sign_in_form.dart';
 
 class SignInPage extends StatelessWidget {
@@ -10,7 +11,7 @@ class SignInPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          _getBackground(),
+          squidBackground(),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
@@ -20,7 +21,7 @@ class SignInPage extends StatelessWidget {
                     flex: 1,
                     child: Column(children: [
                       const SizedBox(height: 36),
-                      _getTitle(),
+                      Expanded(flex: 1, child: _getTitle()),
                       const SizedBox(height: 24),
                       Expanded(flex: 1, child: _getLogo()),
                       const SizedBox(height: 24),
@@ -35,17 +36,6 @@ class SignInPage extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget _getBackground() {
-  return Container(
-    decoration: const BoxDecoration(
-      image: DecorationImage(
-        image: AssetImage('assets/backgrounds/water_background.png'),
-        fit: BoxFit.cover,
-      ),
-    ),
-  );
 }
 
 Widget _getTitle() {

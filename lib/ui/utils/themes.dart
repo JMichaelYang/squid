@@ -14,9 +14,18 @@ class SquidThemes {
     );
   }
 
-  static final ColorScheme darkThemeColor = ColorScheme.fromSeed(
-    seedColor: const Color(0xFF1C234A),
+  static const ColorScheme darkThemeColor = ColorScheme(
     brightness: Brightness.dark,
+    primary: Color(0xFF86CBD5),
+    onPrimary: Colors.black,
+    secondary: Color(0xFF1C234A),
+    onSecondary: Colors.white,
+    error: Colors.red,
+    onError: Colors.black,
+    background: Color(0xFFC1EFFF),
+    onBackground: Colors.black,
+    surface: Color(0xFFCCE9ED),
+    onSurface: Colors.black,
   );
 
   // Light Theme
@@ -30,8 +39,17 @@ class SquidThemes {
     );
   }
 
-  static final ColorScheme lightThemeColor = ColorScheme.fromSeed(
-    seedColor: const Color(0xFF97DDED),
+  static const ColorScheme lightThemeColor = ColorScheme(
     brightness: Brightness.light,
+    primary: Color(0xFF86CBD5),
+    onPrimary: Colors.black,
+    secondary: Color(0xFF1C234A),
+    onSecondary: Colors.white,
+    error: Colors.red,
+    onError: Colors.black,
+    background: Color(0xFFC1EFFF),
+    onBackground: Colors.black,
+    surface: Color(0xFFCCE9ED),
+    onSurface: Colors.black,
   );
 }

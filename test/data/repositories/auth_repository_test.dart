@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:squid/data/repositories/auth_repository.dart';
-import 'package:squid/ui/utils/dependencies.dart';
+import 'package:squid/ui/utils/mocks/dependencies.dart';
 import 'package:squid/ui/utils/mocks/instances.dart';
 import 'package:squid/ui/utils/mocks/mock_google_sign_in.dart';
 
