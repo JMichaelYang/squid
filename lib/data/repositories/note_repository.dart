@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:squid/data/models/note_model.dart';
 import 'package:squid/errors/note_error.dart';
 import 'package:squid/ui/utils/mocks/dependencies.dart';
@@ -27,15 +28,17 @@ class NoteRepository {
     }
   }
 
-  Future createNoteForUser({
+  Future<String> createNoteForUser({
     required String userId,
     required String title,
-    required String hex,
-    required String textHex,
+    required Color color,
+    required Color textColor,
   }) async {
     try {
-      CollectionReference collection = _getCollection(userId: userId, convert: false);
-      await collection.add(Note.frame(title: title, hex: hex, textHex: textHex));
+      CollectionReference collection = _getCollection(userId: userId);
+      String id = collection.doc().id;
+      await collection.doc(id).set(Note(id: id, title: title, color: color, textColor: textColor));
+      return id;
     } on FirebaseException catch (e) {
       switch (e.code) {
         case 'storage/unauthorized':
@@ -52,12 +55,12 @@ class NoteRepository {
     required String userId,
     required String noteId,
     String? title,
-    String? hex,
-    String? textHex,
+    Color? color,
+    Color? textColor,
   }) async {
     try {
       CollectionReference collection = _getCollection(userId: userId, convert: false);
-      await collection.doc(noteId).set(Note.frame(title: title, hex: hex, textHex: textHex));
+      await collection.doc(noteId).update(Note.frame(title: title, color: color, textColor: textColor));
     } on FirebaseException catch (e) {
       switch (e.code) {
         case 'storage/object-not-found':
@@ -75,7 +78,7 @@ class NoteRepository {
   Future deleteNoteForUser({required String userId, required String noteId}) async {
     try {
       CollectionReference collection = _getCollection(userId: userId);
-      collection.doc(noteId).delete();
+      await collection.doc(noteId).delete();
     } on FirebaseException catch (e) {
       switch (e.code) {
         case 'storage/object-not-found':

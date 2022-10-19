@@ -6,9 +6,15 @@ class MockGoogleSignIn extends Mock implements GoogleSignIn {
 
   bool _isCancelled = false;
 
-  /// Used to simulate google login cancellation behaviour.
-  void setIsCancelled(bool val) {
+  Exception? _exception;
+  set exception(Exception? exception) => _exception = exception;
+
+  set isCancelled(bool val) {
     _isCancelled = val;
+  }
+
+  void resetException() {
+    _exception = null;
   }
 
   @override
@@ -16,12 +22,16 @@ class MockGoogleSignIn extends Mock implements GoogleSignIn {
 
   @override
   Future<GoogleSignInAccount?> signIn() {
+    if (_exception != null) throw _exception!;
+
     _currentUser = MockGoogleSignInAccount();
     return Future.value(_isCancelled ? null : _currentUser);
   }
 
   @override
   Future<GoogleSignInAccount?> signInSilently({bool reAuthenticate = false, bool suppressErrors = false}) {
+    if (_exception != null) throw _exception!;
+
     if (currentUser == null) return Future.value(null);
     return Future.value(_isCancelled ? null : _currentUser);
   }

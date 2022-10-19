@@ -23,7 +23,8 @@ class Dependencies {
 
   factory Dependencies() => _instance;
 
-  void configure({
+  Dependencies configure({
+    bool useMocks = false,
     FirebaseAuth? firebaseAuth,
     GoogleSignIn? googleSignIn,
     FirebaseFirestore? firestore,
@@ -31,11 +32,18 @@ class Dependencies {
     _firebaseAuth = firebaseAuth ?? _firebaseAuth;
     _googleSignIn = googleSignIn ?? _googleSignIn;
     _firestore = firestore ?? _firestore;
+    return this;
   }
 
-  void configureDefault({bool mockFirebaseAuth = false, bool mockGoogleSignIn = false, bool mockFirestore = false}) {
-    _firebaseAuth = mockFirebaseAuth ? MockFirebaseAuth(mockUser: Mocks.user) : FirebaseAuth.instance;
-    _googleSignIn = mockGoogleSignIn ? MockGoogleSignIn() : GoogleSignIn();
-    _firestore = mockFirestore ? FakeFirebaseFirestore() : FirebaseFirestore.instance;
+  Dependencies configureDefault({
+    bool useMocks = false,
+    bool mockFirebaseAuth = false,
+    bool mockGoogleSignIn = false,
+    bool mockFirestore = false,
+  }) {
+    _firebaseAuth = useMocks || mockFirebaseAuth ? MockFirebaseAuth(mockUser: Mocks.user) : FirebaseAuth.instance;
+    _googleSignIn = useMocks || mockGoogleSignIn ? MockGoogleSignIn() : GoogleSignIn();
+    _firestore = useMocks || mockFirestore ? FakeFirebaseFirestore() : FirebaseFirestore.instance;
+    return this;
   }
 }
