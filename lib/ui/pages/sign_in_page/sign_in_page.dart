@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:squid/blocs/auth/auth_bloc.dart';
+import 'package:squid/blocs/auth/auth_state.dart';
 import 'package:squid/ui/components/squid_background.dart';
 import 'package:squid/ui/pages/sign_in_page/sign_in_form.dart';
+import 'package:squid/ui/utils/routes.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -34,6 +38,24 @@ class SignInPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class SignOutWrapper extends StatelessWidget {
+  final Widget _child;
+
+  const SignOutWrapper({super.key, required Widget child}) : _child = child;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<AuthBloc, AuthState>(
+      listener: ((context, state) {
+        if (state is AuthUnauthenticatedState) {
+          Navigator.of(context).pushAndRemoveUntil(signInPageRoute(), (route) => false);
+        }
+      }),
+      child: _child,
     );
   }
 }

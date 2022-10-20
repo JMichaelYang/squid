@@ -5,12 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:squid/blocs/auth/auth_bloc.dart';
 import 'package:squid/blocs/auth/auth_event.dart';
 import 'package:squid/blocs/auth/auth_state.dart';
+import 'package:squid/blocs/note/note_bloc.dart';
 import 'package:squid/errors/auth_error.dart';
 import 'package:squid/errors/squid_error.dart';
 import 'package:squid/strings/errors_strings.dart';
 import 'package:squid/ui/components/squid_text_field.dart';
 import 'package:squid/ui/pages/home_page/home_page.dart';
 import 'package:squid/ui/components/squid_button.dart';
+import 'package:squid/ui/utils/routes.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
@@ -37,7 +39,7 @@ class SignInFormState extends State<SignInForm> with SingleTickerProviderStateMi
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthAuthenticatedState) {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const HomePage()));
+          Navigator.of(context).pushReplacement(homePageRoute(state.user.uid));
         } else if (state is AuthErrorState) {
           SquidError error = state.error;
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
