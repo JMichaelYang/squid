@@ -19,6 +19,7 @@ void main() async {
   Dependencies().configureDefault(
     mockFirebaseAuth: true,
     mockGoogleSignIn: true,
+    mockFirestore: true,
   );
 
   runApp(const Squid());

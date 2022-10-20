@@ -79,6 +79,7 @@ class NoteRepository {
     try {
       CollectionReference collection = _getCollection(userId: userId);
       await collection.doc(noteId).delete();
+      return noteId;
     } on FirebaseException catch (e) {
       switch (e.code) {
         case 'storage/object-not-found':

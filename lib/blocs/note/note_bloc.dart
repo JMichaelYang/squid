@@ -28,7 +28,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       emit(NotesLoadingState());
 
       try {
-        await _noteRepository.createNoteForUser(
+        String addedId = await _noteRepository.createNoteForUser(
           userId: userId,
           title: event.title,
           color: event.color,
@@ -36,6 +36,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
         );
 
         List<Note> notes = await _noteRepository.getNotesForUser(userId: _userId);
+        emit(NoteAddedState(addedId));
         emit(NotesLoadedState(notes));
       } on SquidError catch (e) {
         emit(NoteErrorState(e));
@@ -65,9 +66,10 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       emit(NotesLoadingState());
 
       try {
-        await _noteRepository.deleteNoteForUser(userId: userId, noteId: event.id);
+        String deletedId = await _noteRepository.deleteNoteForUser(userId: userId, noteId: event.id);
 
         List<Note> notes = await _noteRepository.getNotesForUser(userId: _userId);
+        emit(NoteDeletedState(deletedId));
         emit(NotesLoadedState(notes));
       } on SquidError catch (e) {
         emit(NoteErrorState(e));

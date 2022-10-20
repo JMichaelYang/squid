@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:squid/blocs/note/note_bloc.dart';
+import 'package:squid/data/models/note_model.dart';
 import 'package:squid/data/repositories/note_repository.dart';
 import 'package:squid/ui/pages/home_page/home_page.dart';
 import 'package:squid/ui/pages/item_page/item_page.dart';
@@ -34,11 +35,11 @@ Route homePageRoute(String userId) {
   );
 }
 
-Route itemPageRoute() {
+Route itemPageRoute(Note note) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => BlocProvider<NoteBloc>.value(
       value: BlocProvider.of<NoteBloc>(context),
-      child: const SignOutWrapper(child: ItemPage()),
+      child: SignOutWrapper(child: ItemPage(note: note)),
     ),
   );
 }

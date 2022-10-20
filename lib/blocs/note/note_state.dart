@@ -9,6 +9,20 @@ abstract class NoteState {}
 class NotesLoadingState extends NoteState {}
 
 @immutable
+class NoteAddedState extends NoteState {
+  final String addedId;
+
+  NoteAddedState(this.addedId);
+}
+
+@immutable
+class NoteDeletedState extends NoteState {
+  final String deletedId;
+
+  NoteDeletedState(this.deletedId);
+}
+
+@immutable
 class NotesLoadedState extends NoteState {
   final List<Note> notes;
 
