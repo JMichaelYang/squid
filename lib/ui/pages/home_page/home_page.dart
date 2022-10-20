@@ -17,8 +17,8 @@ class HomePage extends StatelessWidget {
           SafeArea(
             child: Stack(
               children: [
-                getAddButton(context, () {}),
-                getSettingsButton(context, () {
+                getAddButton(() {}),
+                getSettingsButton(() {
                   BlocProvider.of<AuthBloc>(context).add(AuthSignOutEvent());
                 }),
               ],
