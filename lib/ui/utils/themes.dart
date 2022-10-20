@@ -18,12 +18,12 @@ class SquidThemes {
     brightness: Brightness.dark,
     primary: Color(0xFF86CBD5),
     onPrimary: Colors.black,
-    secondary: Color(0xFF1C234A),
+    secondary: Color(0xFF3F7CAC),
     onSecondary: Colors.white,
     error: Colors.red,
     onError: Colors.black,
     background: Color(0xFFC1EFFF),
-    onBackground: Colors.black,
+    onBackground: Color(0xFF1C234A),
     surface: Color(0xFFCCE9ED),
     onSurface: Colors.black,
   );
@@ -41,14 +41,14 @@ class SquidThemes {
 
   static const ColorScheme lightThemeColor = ColorScheme(
     brightness: Brightness.light,
-    primary: Color(0xFFCCE9ED),
+    primary: Color(0xFF86CBD5),
     onPrimary: Colors.black,
-    secondary: Color(0xFF1C234A),
+    secondary: Color(0xFF3F7CAC),
     onSecondary: Colors.white,
     error: Colors.red,
     onError: Colors.black,
     background: Color(0xFFC1EFFF),
-    onBackground: Colors.black,
+    onBackground: Color(0xFF1C234A),
     surface: Color(0xFFCCE9ED),
     onSurface: Colors.black,
   );

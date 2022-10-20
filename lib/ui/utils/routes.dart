@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:squid/blocs/note/note_bloc.dart';
 import 'package:squid/data/repositories/note_repository.dart';
 import 'package:squid/ui/pages/home_page/home_page.dart';
-import 'package:squid/ui/pages/home_page/item_page.dart';
+import 'package:squid/ui/pages/item_page/item_page.dart';
 import 'package:squid/ui/pages/sign_in_page/sign_in_page.dart';
 
 FadeTransition _getTransition(Animation animation, Widget child) {
