@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:squid/blocs/auth/auth_event.dart';
 import 'package:squid/blocs/auth/auth_state.dart';
 import 'package:squid/data/repositories/auth_repository.dart';
-import 'package:squid/errors/auth_error.dart';
 import 'package:squid/errors/squid_error.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -12,17 +11,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({required AuthRepository authRepository})
       : _authRepository = authRepository,
         super(AuthLoadingState()) {
-    on<AuthSilentSignInEvent>(((event, emit) async {
+    on<AuthSilentSignInEvent>((event, emit) async {
       emit(AuthLoadingState());
-
-      try {
-        User? user = await _authRepository.signInSilently();
-        emit(user != null ? AuthAuthenticatedState(user) : AuthUnauthenticatedState());
-      } catch (e) {
-        emit(AuthErrorState(AuthError(errorCode: 'auth-bloc', message: e.toString())));
-        emit(AuthUnauthenticatedState());
-      }
-    }));
+      User? user = await _authRepository.signInSilently();
+      emit(user != null ? AuthAuthenticatedState(user) : AuthUnauthenticatedState());
+    });
 
     on<AuthEmailSignUpEvent>((event, emit) async {
       emit(AuthLoadingState());
@@ -32,9 +25,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(user != null ? AuthAuthenticatedState(user) : AuthUnauthenticatedState());
       } on SquidError catch (e) {
         emit(AuthErrorState(e));
-        emit(AuthUnauthenticatedState());
-      } catch (e) {
-        emit(AuthErrorState(AuthError(errorCode: 'auth-bloc', message: e.toString())));
         emit(AuthUnauthenticatedState());
       }
     });
@@ -48,9 +38,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } on SquidError catch (e) {
         emit(AuthErrorState(e));
         emit(AuthUnauthenticatedState());
-      } catch (e) {
-        emit(AuthErrorState(AuthError(errorCode: 'auth-bloc', message: e.toString())));
-        emit(AuthUnauthenticatedState());
       }
     });
 
@@ -63,9 +50,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } on SquidError catch (e) {
         emit(AuthErrorState(e));
         emit(AuthUnauthenticatedState());
-      } catch (e) {
-        emit(AuthErrorState(AuthError(errorCode: 'auth-bloc', message: e.toString())));
-        emit(AuthUnauthenticatedState());
       }
     });
 
@@ -77,9 +61,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthUnauthenticatedState());
       } on SquidError catch (e) {
         emit(AuthErrorState(e));
-        emit(AuthUnauthenticatedState());
-      } catch (e) {
-        emit(AuthErrorState(AuthError(errorCode: 'auth-bloc', message: e.toString())));
         emit(AuthUnauthenticatedState());
       }
     });

@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:squid/errors/squid_error.dart';
 
+@immutable
 abstract class AuthEvent {}
 
 @immutable
