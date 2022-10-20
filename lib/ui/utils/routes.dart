@@ -7,8 +7,8 @@ import 'package:squid/ui/pages/home_page/item_page.dart';
 import 'package:squid/ui/pages/sign_in_page/sign_in_page.dart';
 
 FadeTransition _getTransition(Animation animation, Widget child) {
-  double begin = 1;
-  double end = 0;
+  double begin = 0;
+  double end = 1;
   Curve curve = Curves.ease;
 
   return FadeTransition(

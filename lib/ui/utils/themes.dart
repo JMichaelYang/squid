@@ -41,7 +41,7 @@ class SquidThemes {
 
   static const ColorScheme lightThemeColor = ColorScheme(
     brightness: Brightness.light,
-    primary: Color(0xFF86CBD5),
+    primary: Color(0xFFCCE9ED),
     onPrimary: Colors.black,
     secondary: Color(0xFF1C234A),
     onSecondary: Colors.white,

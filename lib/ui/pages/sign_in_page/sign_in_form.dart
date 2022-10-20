@@ -5,12 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:squid/blocs/auth/auth_bloc.dart';
 import 'package:squid/blocs/auth/auth_event.dart';
 import 'package:squid/blocs/auth/auth_state.dart';
-import 'package:squid/blocs/note/note_bloc.dart';
 import 'package:squid/errors/auth_error.dart';
 import 'package:squid/errors/squid_error.dart';
 import 'package:squid/strings/errors_strings.dart';
 import 'package:squid/ui/components/squid_text_field.dart';
-import 'package:squid/ui/pages/home_page/home_page.dart';
 import 'package:squid/ui/components/squid_button.dart';
 import 'package:squid/ui/utils/routes.dart';
 

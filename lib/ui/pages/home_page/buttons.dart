@@ -1,35 +1,49 @@
 import 'package:flutter/material.dart';
 
 Widget getAddButton(BuildContext context, void Function() onAdd) {
-  Color foreground = Theme.of(context).primaryColor;
-
   return Positioned(
-    left: 16,
-    bottom: 16,
-    child: FloatingActionButton(
-      heroTag: "AddButton",
-      onPressed: onAdd,
-      elevation: 0,
-      foregroundColor: foreground,
-      backgroundColor: Colors.transparent,
-      child: const Icon(Icons.add),
+    left: 8,
+    bottom: 8,
+    child: SizedBox(
+      height: 40,
+      width: 40,
+      child: FittedBox(
+        child: Material(
+          clipBehavior: Clip.hardEdge,
+          shape: const CircleBorder(),
+          color: Colors.transparent,
+          child: IconButton(
+            onPressed: onAdd,
+            color: Theme.of(context).primaryColor,
+            icon: const Icon(Icons.add),
+            iconSize: 32,
+          ),
+        ),
+      ),
     ),
   );
 }
 
 Widget getSettingsButton(BuildContext context, void Function() onSettings) {
-  Color foreground = Theme.of(context).primaryColor;
-
   return Positioned(
-    right: 16,
-    bottom: 16,
-    child: FloatingActionButton(
-      heroTag: "SettingsButton",
-      onPressed: onSettings,
-      elevation: 0,
-      foregroundColor: foreground,
-      backgroundColor: Colors.transparent,
-      child: const Icon(Icons.settings_outlined),
+    right: 8,
+    bottom: 8,
+    child: SizedBox(
+      height: 40,
+      width: 40,
+      child: FittedBox(
+        child: Material(
+          clipBehavior: Clip.hardEdge,
+          shape: const CircleBorder(),
+          color: Colors.transparent,
+          child: IconButton(
+            onPressed: onSettings,
+            color: Theme.of(context).primaryColor,
+            icon: const Icon(Icons.settings_outlined),
+            iconSize: 32,
+          ),
+        ),
+      ),
     ),
   );
 }
