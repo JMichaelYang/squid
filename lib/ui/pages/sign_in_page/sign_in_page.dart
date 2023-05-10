@@ -40,6 +40,22 @@ class SignInPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _getTitle() {
+    return const Text(
+      'squid',
+      style: TextStyle(
+        fontFamily: 'lobster',
+        fontSize: 64,
+        fontWeight: FontWeight.bold,
+        fontStyle: FontStyle.italic,
+      ),
+    );
+  }
+
+  Widget _getLogo() {
+    return SvgPicture.asset('assets/logos/squid_logo_black.svg');
+  }
 }
 
 class SignOutWrapper extends StatelessWidget {
@@ -58,20 +74,4 @@ class SignOutWrapper extends StatelessWidget {
       child: _child,
     );
   }
-}
-
-Widget _getTitle() {
-  return const Text(
-    'squid',
-    style: TextStyle(
-      fontFamily: 'lobster',
-      fontSize: 64,
-      fontWeight: FontWeight.bold,
-      fontStyle: FontStyle.italic,
-    ),
-  );
-}
-
-Widget _getLogo() {
-  return SvgPicture.asset('assets/logos/squid_logo_black.svg');
 }

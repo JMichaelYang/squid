@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:squid/blocs/auth/auth_bloc.dart';
 import 'package:squid/blocs/auth/auth_event.dart';
+import 'package:squid/blocs/note/note_bloc.dart';
 import 'package:squid/data/models/note_model.dart';
 import 'package:squid/ui/components/squid_background.dart';
 import 'package:squid/ui/components/squid_button.dart';
+import 'package:squid/ui/pages/home_page/add_note_modal.dart';
 import 'package:squid/ui/pages/home_page/note_item.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,6 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           squidBackground(),
@@ -41,7 +44,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  _getAddButton(() {}),
+                  _getAddButton(context),
                   _getSettingsButton(() {
                     BlocProvider.of<AuthBloc>(context).add(AuthSignOutEvent());
                   }),
@@ -53,45 +56,61 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-}
 
-Widget _getListContainer(Widget child) {
-  return FractionallySizedBox(
-    widthFactor: 1,
-    heightFactor: 0.75,
-    child: ShaderMask(
-      shaderCallback: (bounds) => const LinearGradient(
-        begin: Alignment(0, 0.2),
-        end: Alignment.bottomCenter,
-        colors: [
-          Colors.black,
-          Colors.transparent,
-        ],
-      ).createShader(bounds),
-      blendMode: BlendMode.dstIn,
-      child: child,
-    ),
-  );
-}
+  Widget _getListContainer(Widget child) {
+    return FractionallySizedBox(
+      widthFactor: 1,
+      heightFactor: 0.75,
+      child: ShaderMask(
+        shaderCallback: (bounds) => const LinearGradient(
+          begin: Alignment(0, 0.2),
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.black,
+            Colors.transparent,
+          ],
+        ).createShader(bounds),
+        blendMode: BlendMode.dstIn,
+        child: child,
+      ),
+    );
+  }
 
-Widget _getAddButton(void Function() onAdd) {
-  return Positioned(
-    left: 12,
-    bottom: 12,
-    child: SquidCircleButton(
-      icon: const Icon(Icons.add),
-      onPressed: onAdd,
-    ),
-  );
-}
+  Widget _getAddButton(BuildContext context) {
+    return Positioned(
+      left: 12,
+      bottom: 12,
+      child: SquidCircleButton(
+        icon: const Icon(Icons.add),
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (_) {
+              return SafeArea(
+                child: Wrap(
+                  children: [
+                    BlocProvider.value(
+                      value: BlocProvider.of<NoteBloc>(context),
+                      child: const AddNoteModal(),
+                    )
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
 
-Widget _getSettingsButton(void Function() onSettings) {
-  return Positioned(
-    right: 12,
-    bottom: 12,
-    child: SquidCircleButton(
-      icon: const Icon(Icons.settings_outlined),
-      onPressed: onSettings,
-    ),
-  );
+  Widget _getSettingsButton(void Function() onSettings) {
+    return Positioned(
+      right: 12,
+      bottom: 12,
+      child: SquidCircleButton(
+        icon: const Icon(Icons.settings_outlined),
+        onPressed: onSettings,
+      ),
+    );
+  }
 }
